@@ -71,6 +71,13 @@ jobs:
         working-directory: backend/api
         run: npm run lint --if-present
       
+      - name: Run Database Migrations
+        env:
+          DATABASE_URL: postgresql://nhiadmin:ciTestOnly123@localhost:5432/nhishield_test
+        run: |
+          cd backend/api && npm ci || npm install
+          cd ../../ && node database/migrate.js
+      
       - name: Run tests
         working-directory: backend/api
         env:
